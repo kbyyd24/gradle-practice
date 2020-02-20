@@ -1,6 +1,6 @@
 import com.google.common.collect.ImmutableMap;
 
-public class HelloWrold {
+public class HelloWorld {
 
   public static void main(String[] args) {
     ImmutableMap.of("Hello", "World")
