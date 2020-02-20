@@ -22,3 +22,20 @@ task compileJava(type: JavaCompile) {
 compileJava.doLast {
   println 'compile success!'
 }
+
+tasks.create('jar', Jar)
+
+jar {
+  archiveBaseName = 'base-name'
+  archiveAppendix = 'appendix'
+  archiveVersion = '0.0.1'
+  // from file("$buildDir/classes")
+  from compileJava.outputs
+  include "**/*.class"
+  manifest {
+    attributes("something": "value")
+  }
+  setDestinationDir file("$buildDir/lib")
+}
+
+// jar.dependsOn compileJava
