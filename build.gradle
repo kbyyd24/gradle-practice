@@ -1,10 +1,22 @@
+repositories {
+  mavenCentral()
+}
+
+configurations {
+  forHelloWorld
+}
+
+dependencies {
+  forHelloWorld group: 'com.google.guava', name: 'guava', version: '28.2-jre'
+}
+
 task compileJava(type: JavaCompile) {
   source fileTree("$projectDir/src")
   include "**/*.java"
   destinationDir = file("${buildDir}/classes")
   sourceCompatibility = '1.8'
   targetCompatibility = '1.8'
-  classpath = files("${buildDir}/classes")
+  classpath = files("${buildDir}/classes", configurations.forHelloWorld)
 }
 
 compileJava.doLast {
