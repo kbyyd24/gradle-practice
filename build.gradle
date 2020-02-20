@@ -39,3 +39,18 @@ jar {
 }
 
 // jar.dependsOn compileJava
+
+task('fatJar', type: Jar) {
+  archiveBaseName = 'base-name'
+  archiveAppendix = 'appendix'
+  archiveVersion = '0.0.1'
+  archiveClassifier = 'boot'
+  from compileJava
+  from configurations.forHelloWorld.collect {
+    it.isDirectory() ? it : zipTree(it)
+  }
+  manifest {
+    attributes "Main-Class": "HelloWorld"
+  }
+  setDestinationDir file("$buildDir/lib")
+}
