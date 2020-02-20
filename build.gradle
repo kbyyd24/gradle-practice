@@ -35,7 +35,7 @@ task('fatJar', type: Jar) {
   manifest {
     attributes "Main-Class": "HelloWorld"
   }
-  setDestinationDir file("$buildDir/lib")
+  setDestinationDir file("$buildDir/libs")
 }
 
 assemble.dependsOn(fatJar)
