@@ -37,3 +37,5 @@ task('fatJar', type: Jar) {
   }
   setDestinationDir file("$buildDir/lib")
 }
+
+assemble.dependsOn(fatJar)
