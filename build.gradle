@@ -1,44 +1,27 @@
+plugins {
+  id 'java'
+}
+
 repositories {
   mavenCentral()
 }
 
-configurations {
-  forHelloWorld
-}
-
 dependencies {
-  forHelloWorld group: 'com.google.guava', name: 'guava', version: '28.2-jre'
-}
-
-task compileJava(type: JavaCompile) {
-  source fileTree("$projectDir/src")
-  include "**/*.java"
-  destinationDir = file("${buildDir}/classes")
-  sourceCompatibility = '1.8'
-  targetCompatibility = '1.8'
-  classpath = files("${buildDir}/classes", configurations.forHelloWorld)
+  implementation group: 'com.google.guava', name: 'guava', version: '28.2-jre'
 }
 
 compileJava.doLast {
   println 'compile success!'
 }
 
-tasks.create('jar', Jar)
-
 jar {
   archiveBaseName = 'base-name'
   archiveAppendix = 'appendix'
   archiveVersion = '0.0.1'
-  // from file("$buildDir/classes")
-  from compileJava.outputs
-  include "**/*.class"
   manifest {
     attributes("something": "value")
   }
-  setDestinationDir file("$buildDir/lib")
 }
-
-// jar.dependsOn compileJava
 
 task('fatJar', type: Jar) {
   archiveBaseName = 'base-name'
@@ -46,7 +29,7 @@ task('fatJar', type: Jar) {
   archiveVersion = '0.0.1'
   archiveClassifier = 'boot'
   from compileJava
-  from configurations.forHelloWorld.collect {
+  from configurations.runtimeClasspath.collect {
     it.isDirectory() ? it : zipTree(it)
   }
   manifest {
